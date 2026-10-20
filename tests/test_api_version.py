@@ -20,9 +20,9 @@ def patched_db(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> AppDatabase:
     return db
 
 
-def test_bot_name_defaults_to_miracodeai(patched_db: AppDatabase):
+def test_bot_name_defaults_to_reviewer(patched_db: AppDatabase):
     out = core.get_version()
-    assert out["bot_name"] == "miracodeai"
+    assert out["bot_name"] == "reviewer"
     assert out["version"]
 
 

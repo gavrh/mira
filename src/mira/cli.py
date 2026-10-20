@@ -122,7 +122,7 @@ def _format_json(result: ReviewResult) -> str:
 @click.group()
 @click.version_option(version=__version__, prog_name="mira")
 def main() -> None:
-    """Mira — AI-powered PR reviewer."""
+    """AI-powered PR reviewer."""
 
 
 @main.command()
@@ -376,7 +376,7 @@ def serve(
     config_path: str | None,
     verbose: bool,
 ) -> None:
-    """Run the Mira webhook server for GitHub, GitLab, Forgejo, and/or Bitbucket."""
+    """Run the webhook server for GitHub, GitLab, Forgejo, and/or Bitbucket."""
     try:
         import asyncio
 
@@ -456,18 +456,18 @@ def serve(
         )
 
     # Auto-detect the bot @mention from whichever platform's own identity when
-    # the user didn't override it. Falls back to "miracodeai" on a lookup blip.
+    # the user didn't override it. Falls back to "reviewer" on a lookup blip.
     if not bot_name:
         identity_auth = app_auth or gitlab_auth or forgejo_auth or bitbucket_auth
         if identity_auth is not None:
-            bot_name = asyncio.run(identity_auth.get_bot_identity()) or "miracodeai"
+            bot_name = asyncio.run(identity_auth.get_bot_identity()) or "reviewer"
             # Bitbucket nicknames may contain characters the server rejects.
             if not all(c.isascii() and (c.isalnum() or c in "_-") for c in bot_name):
                 click.echo(f"Detected bot identity {bot_name!r} is not a valid @mention name")
-                bot_name = "miracodeai"
+                bot_name = "reviewer"
             click.echo(f"Detected bot @mention: @{bot_name}")
         else:
-            bot_name = "miracodeai"
+            bot_name = "reviewer"
 
     # Persist the resolved name so the dashboard UI can show the real handle.
     try:
@@ -499,7 +499,7 @@ def serve(
         ]
         if on
     )
-    click.echo(f"Starting Mira webhook server ({platforms}) on {host}:{port}")
+    click.echo(f"Starting webhook server ({platforms}) on {host}:{port}")
     uvicorn.run(app, host=host, port=port)
 
 
