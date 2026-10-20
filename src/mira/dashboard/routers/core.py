@@ -27,16 +27,16 @@ from mira.index.store import IndexStore
 
 @router.get("/api/version")
 def get_version() -> dict[str, str]:
-    """Return the running Mira version and the bot's @mention handle. The
+    """Return the running version and the bot's @mention handle. The
     dashboard renders the version next to the logo, and uses bot_name so help
     text shows the real handle instead of a hardcoded placeholder. bot_name is
     persisted by `mira serve` (env override, else the App's auto-detected slug);
-    falls back to "miracodeai" before the server has recorded it."""
+    falls back to "reviewer" before the server has recorded it."""
     from mira import __version__
 
     return {
         "version": __version__,
-        "bot_name": _api._app_db.get_setting("bot_name") or "miracodeai",
+        "bot_name": _api._app_db.get_setting("bot_name") or "reviewer",
     }
 
 

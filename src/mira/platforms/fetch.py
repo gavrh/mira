@@ -156,7 +156,7 @@ class GitHubRepoFetcher:
         indexable_paths: set[str] | None = None,
     ) -> dict[str, str] | None:
         url = f"{self._api}/repos/{owner}/{repo}/tarball/{ref}"
-        headers = {**self._headers(), "User-Agent": "mira-indexer"}
+        headers = {**self._headers(), "User-Agent": "review-indexer"}
         try:
             async with httpx.AsyncClient(follow_redirects=True, timeout=120) as client:
                 resp = await client.get(url, headers=headers)

@@ -42,7 +42,7 @@ def _json_status(status: str) -> Response:
 def create_app(
     app_auth: GitHubAppAuth | None = None,
     webhook_secret: str | None = None,
-    bot_name: str = "miracodeai",
+    bot_name: str = "reviewer",
     *,
     gitlab_auth: Any = None,
     gitlab_webhook_secret: str | None = None,
@@ -118,7 +118,7 @@ def create_app(
         if not vuln_task.done():
             vuln_task.cancel()
 
-    app = FastAPI(title="Mira", lifespan=lifespan)
+    app = FastAPI(title="Code Review", lifespan=lifespan)
 
     @app.get("/health")
     async def health() -> dict[str, str]:
