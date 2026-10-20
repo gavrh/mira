@@ -433,7 +433,7 @@ class ReviewEngine:
         config: MiraConfig,
         llm: LLMProviderProtocol,
         provider: BaseProvider | None = None,
-        bot_name: str = "miracodeai",
+        bot_name: str = "reviewer",
         dry_run: bool = False,
         indexing_llm: LLMProviderProtocol | None = None,
         security_llm: LLMProviderProtocol | None = None,
@@ -461,7 +461,7 @@ class ReviewEngine:
         """
         if not self.provider:
             return None
-        placeholder = f"{WALKTHROUGH_MARKER}\n## Mira PR Walkthrough\n\n*🔍 Reviewing this PR…*\n"
+        placeholder = f"{WALKTHROUGH_MARKER}\n## PR Walkthrough\n\n*🔍 Reviewing this PR…*\n"
         existing_id = await self.provider.find_bot_comment(pr_info, WALKTHROUGH_MARKER)
         if existing_id is not None:
             await self.provider.update_comment(pr_info, existing_id, placeholder)
@@ -710,7 +710,7 @@ class ReviewEngine:
                 return
             try:
                 markdown = wt.to_markdown(
-                    bot_name=self.bot_name or "miracodeai",
+                    bot_name=self.bot_name or "reviewer",
                     in_progress=True,
                 )
                 await self.provider.update_comment(pr_info, placeholder_id, markdown)
@@ -857,14 +857,14 @@ class ReviewEngine:
                     wt = _walkthrough_result[0]
                     if wt is not None:
                         failure_body = wt.to_markdown(
-                            bot_name=self.bot_name or "miracodeai",
+                            bot_name=self.bot_name or "reviewer",
                             in_progress=False,
                             failure_notice=self._format_failure_notice(exc),
                         )
                     else:
                         failure_body = (
                             f"{WALKTHROUGH_MARKER}\n"
-                            "## Mira PR Walkthrough\n\n"
+                            "## PR Walkthrough\n\n"
                             "---\n\n"
                             "<details>\n"
                             "<summary><b>❌ Review failed</b> — click for details</summary>\n\n"
@@ -1002,7 +1002,7 @@ class ReviewEngine:
             # failed) — finalize the placeholder so it doesn't sit on
             # "Reviewing this PR…" forever.
             reason = result.skipped_reason or "Walkthrough was not generated."
-            markdown = f"{WALKTHROUGH_MARKER}\n## Mira PR Walkthrough\n\n*{reason}*\n"
+            markdown = f"{WALKTHROUGH_MARKER}\n## PR Walkthrough\n\n*{reason}*\n"
             try:
                 await self.provider.update_comment(pr_info, placeholder_id, markdown)
             except Exception as exc:
@@ -1015,7 +1015,7 @@ class ReviewEngine:
         ):
             try:
                 block = (
-                    f"{PR_SUMMARY_START}\n## Summary by Mira\n\n"
+                    f"{PR_SUMMARY_START}\n## PR Summary\n\n"
                     f"{result.pr_summary_block}\n{PR_SUMMARY_END}"
                 )
                 current_body = await self.provider.get_pr_description(pr_info)
@@ -1112,7 +1112,7 @@ class ReviewEngine:
                 logger.debug("Feedback synthesis failed: %s", synth_err)
             store.close()
 
-            # Merge with any prior progress for this PR so @miracodeai review-rest
+            # Merge with any prior progress for this PR so @reviewer review-rest
             # can target only the still-unreviewed paths.
             try:
                 from mira.dashboard.api import _app_db

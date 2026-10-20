@@ -413,13 +413,13 @@ class TestWalkthroughToMarkdown:
             ],
         )
         md = result.to_markdown()
-        assert "## Mira PR Walkthrough" in md
+        assert "## PR Walkthrough" in md
         assert "Added new features." in md
         lines = md.split("\n")
         assert "---" in lines, "Expected separator '---' in markdown output"
         separator_idx = len(lines) - 1 - lines[::-1].index("---")
         footer_text = "\n".join(lines[separator_idx:])
-        assert "@miracodeai help" in footer_text
+        assert "@reviewer help" in footer_text
 
     def test_with_sequence_diagram(self):
         result = WalkthroughResult(
@@ -469,14 +469,14 @@ class TestWalkthroughToMarkdown:
         assert "---" in lines, "Expected separator '---' in markdown output"
         separator_idx = len(lines) - 1 - lines[::-1].index("---")
         footer_text = "\n".join(lines[separator_idx:])
-        assert "`@miracodeai help`" in footer_text
+        assert "`@reviewer help`" in footer_text
         assert "available commands and usage tips" in footer_text
 
     def test_help_footer_custom_bot_name(self):
         result = WalkthroughResult(summary="Footer test.")
         md = result.to_markdown(bot_name="mybot")
         assert "`@mybot help`" in md
-        assert "@miracodeai" not in md
+        assert "@reviewer" not in md
 
     def test_contains_walkthrough_marker(self):
         result = WalkthroughResult(summary="Test.")
@@ -489,7 +489,7 @@ class TestWalkthroughToMarkdown:
         result = WalkthroughResult(summary="Changes.")
         stats = {Severity.BLOCKER: 1, Severity.WARNING: 2}
         md = result.to_markdown(review_stats=stats, existing_issues=3)
-        assert "## Mira PR Walkthrough" in md
+        assert "## PR Walkthrough" in md
 
     def test_clean_output_no_changes_table(self):
         """Walkthrough markdown does not include a changes table."""
