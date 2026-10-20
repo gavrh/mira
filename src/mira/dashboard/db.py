@@ -380,7 +380,7 @@ class GlobalRule:
 @dataclass
 class PRReviewProgress:
     """Tracks which files in a large PR have been reviewed across one or more
-    review passes. Powers `@miracodeai review-rest` and (eventually) the
+    review passes. Powers `@reviewer review-rest` and (eventually) the
     auto-advance progressive flow."""
 
     owner: str

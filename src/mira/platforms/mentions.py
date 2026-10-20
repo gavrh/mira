@@ -1,7 +1,7 @@
 """Bot @-mention matching, shared across platforms.
 
-Mira answers to two handles: the configured ``bot_name`` (what it writes in its
-own comments, e.g. ``@mira``) and its real account identity (GitHub App slug /
+The reviewer answers to two handles: the configured ``bot_name`` (what it writes
+in its own comments, e.g. ``@reviewer``) and its real account identity (GitHub App slug /
 GitLab bot username, e.g. ``@project_123_bot_abc``). A teammate might type
 either — the friendly name, or whatever the platform autocompletes — so command
 detection accepts both.
@@ -34,7 +34,7 @@ def strip_mentions(text: str, names: list[str]) -> str:
 
 def command_after_mention(text: str, names: list[str]) -> str:
     """The first word following ``@<name>`` for any matched name (lowercased),
-    or "" — e.g. "@mira review" → "review"."""
+    or "" — e.g. "@reviewer review" → "review"."""
     for n in names:
         m = re.search(rf"@{re.escape(n)}\s+(\w+)", text, re.IGNORECASE)
         if m:

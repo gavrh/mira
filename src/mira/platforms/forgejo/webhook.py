@@ -138,8 +138,8 @@ async def handle_forgejo_pr(payload: dict[str, Any], auth: PlatformAuth, bot_nam
     pr_url = pr.get("html_url", "")
     is_private = repo.get("private", True)
 
-    # Same opt-outs as GitHub: `@mira ignore` in the description and the
-    # mira-paused label both skip auto-review.
+    # Same opt-outs as GitHub: `@reviewer ignore` in the description and the
+    # review-paused label both skip auto-review.
     names = mention_names(bot_name, await auth.get_bot_identity())
     description = pr.get("body", "") or ""
     if any(re.search(rf"@{re.escape(n)}[ \t]+ignore\b", description, re.IGNORECASE) for n in names):

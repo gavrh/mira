@@ -191,7 +191,7 @@ async def test_paused_label_skips_review(gitlab_auth):
     from mira.platforms.gitlab import webhook as gw
 
     payload = _mr_payload(action="open")
-    payload["labels"] = [{"title": "mira-paused"}]
+    payload["labels"] = [{"title": "review-paused"}]
     with patch("mira.platforms.handlers.run_pr_review", new=AsyncMock()) as rpr:
         await gw.handle_merge_request(payload, gitlab_auth, "mira-bot")
     rpr.assert_not_called()
