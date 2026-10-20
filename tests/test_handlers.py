@@ -307,7 +307,7 @@ async def test_handle_comment_help_posts_command_list(
 
     mock_provider.post_comment.assert_awaited_once()
     posted = mock_provider.post_comment.call_args[0][1]
-    assert posted.startswith("### Mira commands")
+    assert posted.startswith("### Commands")
     assert "@mira-bot review" in posted
     assert "@mira-bot reject" in posted
     # Help must not invoke the LLM (no diff fetch, no question reply).
@@ -625,7 +625,7 @@ async def test_handle_pause_adds_label_and_posts_comment(
 
     mock_provider.add_label.assert_awaited_once()
     label_arg = mock_provider.add_label.call_args[0][1]
-    assert label_arg == "mira-paused"
+    assert label_arg == "review-paused"
 
     mock_provider.post_comment.assert_awaited_once()
     posted_body = mock_provider.post_comment.call_args[0][1]
@@ -646,7 +646,7 @@ async def test_handle_resume_removes_label_and_posts_comment(
 
     mock_provider.remove_label.assert_awaited_once()
     label_arg = mock_provider.remove_label.call_args[0][1]
-    assert label_arg == "mira-paused"
+    assert label_arg == "review-paused"
 
     mock_provider.post_comment.assert_awaited_once()
     posted_body = mock_provider.post_comment.call_args[0][1]
