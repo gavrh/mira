@@ -476,7 +476,7 @@ class GitHubProvider(BaseProvider):
         self,
         pr_info: PRInfo,
         result: ReviewResult,
-        bot_name: str = "miracodeai",
+        bot_name: str = "reviewer",
     ) -> list[int]:
         if not result.comments:
             return []
@@ -502,7 +502,7 @@ class GitHubProvider(BaseProvider):
 
         review_body = ""
         if result.summary:
-            review_body = f"**Mira Review Summary**\n\n{result.summary}"
+            review_body = f"**Review Summary**\n\n{result.summary}"
         if result.key_issues:
             review_body += _format_key_issues(result.key_issues)
 

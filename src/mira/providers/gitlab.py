@@ -310,7 +310,7 @@ class GitLabProvider(BaseProvider):
     # ── posting ─────────────────────────────────────────────────────
 
     async def post_review(
-        self, pr_info: PRInfo, result: ReviewResult, bot_name: str = "miracodeai"
+        self, pr_info: PRInfo, result: ReviewResult, bot_name: str = "reviewer"
     ) -> None:
         if not result.comments:
             return
@@ -359,7 +359,7 @@ class GitLabProvider(BaseProvider):
 
         review_body = ""
         if result.summary:
-            review_body = f"**Mira Review Summary**\n\n{result.summary}"
+            review_body = f"**Review Summary**\n\n{result.summary}"
         if result.key_issues:
             review_body += format_key_issues(result.key_issues)
         if review_body:

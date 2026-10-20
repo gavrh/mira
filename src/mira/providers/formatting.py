@@ -156,7 +156,7 @@ def _close_open_fences(parts: list[str]) -> None:
         parts.append("```")
 
 
-def format_comment_body(comment: ReviewComment, bot_name: str = "miracodeai") -> str:
+def format_comment_body(comment: ReviewComment, bot_name: str = "reviewer") -> str:
     """Format a review comment body with category badge, severity, and suggestion block."""
     label = _CATEGORY_DISPLAY.get(comment.category, ("\U0001f4cc", "Note"))[1]
     badge = _SEVERITY_BADGE.get(comment.severity, "")
