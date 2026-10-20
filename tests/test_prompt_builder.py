@@ -42,7 +42,7 @@ class TestBuildReviewPrompt:
         config = MiraConfig()
         messages = build_review_prompt(files, config)
         system = messages[0]["content"]
-        assert "Mira" in system
+        assert "expert AI code reviewer" in system
         assert "submit_review" in system
         assert "blocker" in system
 
