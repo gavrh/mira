@@ -1259,10 +1259,10 @@ class TestAddLabel:
         mock_gh.get_repo.return_value = mock_repo
 
         with patch("mira.providers.github.Github", return_value=mock_gh):
-            await provider.add_label(pr_info, "mira-paused")
+            await provider.add_label(pr_info, "review-paused")
 
         mock_repo.get_issue.assert_called_once_with(1)
-        mock_issue.add_to_labels.assert_called_once_with("mira-paused")
+        mock_issue.add_to_labels.assert_called_once_with("review-paused")
 
 
 class TestRemoveLabel:
@@ -1281,10 +1281,10 @@ class TestRemoveLabel:
         mock_gh.get_repo.return_value = mock_repo
 
         with patch("mira.providers.github.Github", return_value=mock_gh):
-            await provider.remove_label(pr_info, "mira-paused")
+            await provider.remove_label(pr_info, "review-paused")
 
         mock_repo.get_issue.assert_called_once_with(1)
-        mock_issue.remove_from_labels.assert_called_once_with("mira-paused")
+        mock_issue.remove_from_labels.assert_called_once_with("review-paused")
 
     @pytest.mark.asyncio
     async def test_remove_label_silently_handles_404(self):
@@ -1304,7 +1304,7 @@ class TestRemoveLabel:
 
         # Should not raise
         with patch("mira.providers.github.Github", return_value=mock_gh):
-            await provider.remove_label(pr_info, "mira-paused")
+            await provider.remove_label(pr_info, "review-paused")
 
 
 class TestGetPRDiff406Fallback:

@@ -97,8 +97,8 @@ async def handle_merge_request(payload: dict[str, Any], auth: PlatformAuth, bot_
     mr_url = attrs.get("url") or f"{project.get('web_url', '')}/-/merge_requests/{iid}"
     is_private = project.get("visibility", "private") != "public"
 
-    # Same opt-outs as GitHub: `@mira ignore` in the description and the
-    # mira-paused label both skip auto-review.
+    # Same opt-outs as GitHub: `@reviewer ignore` in the description and the
+    # review-paused label both skip auto-review.
     names = mention_names(bot_name, await auth.get_bot_identity())
     description = attrs.get("description", "") or ""
     if any(re.search(rf"@{re.escape(n)}[ \t]+ignore\b", description, re.IGNORECASE) for n in names):

@@ -323,7 +323,7 @@ async def test_review_comment_from_bot_self_ignored(client: AsyncClient) -> None
 async def test_pr_with_paused_label_returns_paused(
     mock_handler: AsyncMock, client: AsyncClient
 ) -> None:
-    payload = _make_pr_payload(labels=[{"name": "mira-paused"}])
+    payload = _make_pr_payload(labels=[{"name": "review-paused"}])
     payload_bytes = json.dumps(payload).encode()
     resp = await client.post(
         "/webhook",
