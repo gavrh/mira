@@ -5,9 +5,9 @@ from __future__ import annotations
 import enum
 from dataclasses import dataclass, field
 
-WALKTHROUGH_MARKER = "<!-- mira-walkthrough -->"
-PR_SUMMARY_START = "<!-- mira-pr-summary-start -->"
-PR_SUMMARY_END = "<!-- mira-pr-summary-end -->"
+WALKTHROUGH_MARKER = "<!-- review-walkthrough -->"
+PR_SUMMARY_START = "<!-- review-summary-start -->"
+PR_SUMMARY_END = "<!-- review-summary-end -->"
 
 
 class FileChangeType(enum.Enum):
@@ -200,7 +200,7 @@ class WalkthroughResult:
 
     def to_markdown(
         self,
-        bot_name: str = "miracodeai",
+        bot_name: str = "reviewer",
         review_stats: dict[Severity, int] | None = None,
         existing_issues: int = 0,
         blast_radius: list[dict] | None = None,
@@ -216,7 +216,7 @@ class WalkthroughResult:
         failure_notice: str | None = None,
     ) -> str:
         """Render as a markdown PR comment."""
-        parts = [WALKTHROUGH_MARKER, "## Mira PR Walkthrough", ""]
+        parts = [WALKTHROUGH_MARKER, "## PR Walkthrough", ""]
         parts.append(self.summary)
 
         if self.sequence_diagram:
@@ -343,12 +343,14 @@ class WalkthroughResult:
             parts.append("")
             parts.append("---")
             parts.append("")
-            link = f"[Mira dashboard]({dashboard_url})" if dashboard_url else "the Mira dashboard"
+            link = (
+                f"[review dashboard]({dashboard_url})" if dashboard_url else "the review dashboard"
+            )
             parts.append(
                 f"> 💡 **This review will be more accurate after indexing.** "
                 f"This repo hasn't been indexed yet, so the review is based on "
                 f"the diff plus on-demand file lookups. Visit {link} to index "
-                f"this repo — Mira will then know about callers, dependents, "
+                f"this repo — the reviewer will then know about callers, dependents, "
                 f"and cross-repo impact."
             )
 
@@ -397,7 +399,7 @@ class ReviewResult:
     token_usage: dict[str, int] = field(default_factory=dict)
     walkthrough: WalkthroughResult | None = None
     thread_decisions: list[ThreadDecision] = field(default_factory=list)
-    # Surfaced in the walkthrough banner so @miracodeai review-rest can target the rest.
+    # Surfaced in the walkthrough banner so the review-rest command can target the rest.
     reviewed_paths: list[str] = field(default_factory=list)
     skipped_paths: list[str] = field(default_factory=list)
     total_paths: list[str] = field(default_factory=list)
