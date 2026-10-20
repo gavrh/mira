@@ -6,8 +6,7 @@
     "api_key_env": "OPENROUTER_API_KEY",
     "model_prefix": "keep",
     "extra_headers": {
-      "HTTP-Referer": "https://github.com/miracodeai/mira",
-      "X-Title": "Mira Code Reviewer"
+      "X-Title": "AI Code Reviewer"
     },
     "reasoning_effort_map": { "max": "xhigh" }
   },
