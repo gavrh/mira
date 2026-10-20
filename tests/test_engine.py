@@ -552,7 +552,7 @@ class TestReviewEngine:
         mock_provider.post_comment.assert_called_once()
         placeholder_body = mock_provider.post_comment.call_args[0][1]
         assert "Reviewing this PR" in placeholder_body
-        assert "<!-- mira-walkthrough -->" in placeholder_body
+        assert "<!-- review-walkthrough -->" in placeholder_body
 
         # 2. In-progress walkthrough update (the one triggered by the callback)
         #    and 3. final walkthrough update with stats.
@@ -657,7 +657,7 @@ class TestReviewEngine:
         bodies = [c[0][1] for c in mock_provider.post_comment.call_args_list]
         bodies.extend(c[0][2] for c in mock_provider.update_comment.call_args_list)
         combined = "\n".join(bodies)
-        assert "## Mira PR Walkthrough" in combined
+        assert "## PR Walkthrough" in combined
         assert "PR walkthrough summary." in combined
 
     @pytest.mark.asyncio

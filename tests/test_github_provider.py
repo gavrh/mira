@@ -384,7 +384,7 @@ class TestPostReviewGracefulDegradation:
         # Summary-only call is the last /reviews call and has comments=[].
         final = review_calls[-1]
         assert final.get("comments") == []
-        assert "Mira Review Summary" in final.get("body", "")
+        assert "Review Summary" in final.get("body", "")
 
     @pytest.mark.asyncio
     async def test_partial_individual_success(self):
@@ -630,7 +630,7 @@ class TestFindBotComment:
         comment1.id = 10
 
         comment2 = MagicMock()
-        comment2.body = "<!-- mira-walkthrough -->\n## Mira PR Walkthrough"
+        comment2.body = "<!-- review-walkthrough -->\n## PR Walkthrough"
         comment2.id = 42
 
         mock_issue = MagicMock()
@@ -642,7 +642,7 @@ class TestFindBotComment:
         mock_gh.get_repo.return_value = mock_repo
 
         with patch("mira.providers.github.Github", return_value=mock_gh):
-            result = await provider.find_bot_comment(pr_info, "<!-- mira-walkthrough -->")
+            result = await provider.find_bot_comment(pr_info, "<!-- review-walkthrough -->")
         assert result == 42
 
     @pytest.mark.asyncio
@@ -665,7 +665,7 @@ class TestFindBotComment:
         mock_gh.get_repo.return_value = mock_repo
 
         with patch("mira.providers.github.Github", return_value=mock_gh):
-            result = await provider.find_bot_comment(pr_info, "<!-- mira-walkthrough -->")
+            result = await provider.find_bot_comment(pr_info, "<!-- review-walkthrough -->")
         assert result is None
 
     @pytest.mark.asyncio
@@ -684,7 +684,7 @@ class TestFindBotComment:
         mock_gh.get_repo.return_value = mock_repo
 
         with patch("mira.providers.github.Github", return_value=mock_gh):
-            result = await provider.find_bot_comment(pr_info, "<!-- mira-walkthrough -->")
+            result = await provider.find_bot_comment(pr_info, "<!-- review-walkthrough -->")
         assert result is None
 
 
@@ -1280,7 +1280,7 @@ class TestFormatCommentBodyDismissHint:
 
     def test_default_bot_name(self):
         body = _format_comment_body(self._make_comment())
-        assert "> Not useful? Reply `@miracodeai reject` to dismiss this suggestion." in body
+        assert "> Not useful? Reply `@reviewer reject` to dismiss this suggestion." in body
 
     def test_custom_bot_name(self):
         body = _format_comment_body(self._make_comment(), bot_name="mybot")

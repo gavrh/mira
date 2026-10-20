@@ -209,7 +209,7 @@ class ReviewConfig(BaseModel):
     # Total diff size cap. Above this, the diff is *not* truncated arbitrarily —
     # files are ranked by priority and the lowest-priority files are skipped
     # until the diff fits. Skipped files are listed in the walkthrough so the
-    # user can invoke `@miracodeai review-rest` to review them.
+    # user can invoke `@reviewer review-rest` to review them.
     max_diff_size: int = 250_000
     # Per-file size cap. A single huge file (lockfile, generated SDK, etc.)
     # gets skipped before chunking even starts.
@@ -222,7 +222,7 @@ class ReviewConfig(BaseModel):
     focus_only_on_problems: bool = False
     walkthrough: bool = True
     walkthrough_sequence_diagram: bool = True
-    # Write an AI-generated "Summary by Mira" release-notes block into the
+    # Write an AI-generated "PR Summary" release-notes block into the
     # PR/MR description body. "disable" (default) = off; "append" = add/update the
     # marked block preserving the author's description; "replace" = set the entire
     # body to the summary block. Requires review.walkthrough: true (content derives

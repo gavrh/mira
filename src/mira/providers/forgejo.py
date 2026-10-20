@@ -308,14 +308,14 @@ class ForgejoProvider(BaseProvider):
     # ── posting ─────────────────────────────────────────────────────
 
     async def post_review(
-        self, pr_info: PRInfo, result: ReviewResult, bot_name: str = "miracodeai"
+        self, pr_info: PRInfo, result: ReviewResult, bot_name: str = "reviewer"
     ) -> None:
         if not result.comments:
             return
 
         summary_text = ""
         if result.summary:
-            summary_text = f"**Mira Review Summary**\n\n{result.summary}"
+            summary_text = f"**Review Summary**\n\n{result.summary}"
         if result.key_issues:
             summary_text += format_key_issues(result.key_issues)
 
