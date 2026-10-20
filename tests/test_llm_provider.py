@@ -589,8 +589,8 @@ class TestProfileHeaders:
     def test_openrouter_adds_ranking_headers(self):
         provider = LLMProvider(LLMConfig(model="m"))  # default base_url = openrouter
         headers = provider._build_headers()
-        assert headers["HTTP-Referer"] == "https://github.com/miracodeai/mira"
-        assert headers["X-Title"] == "Mira Code Reviewer"
+        assert "HTTP-Referer" not in headers
+        assert headers["X-Title"] == "AI Code Reviewer"
 
     def test_other_endpoint_has_no_ranking_headers(self):
         provider = LLMProvider(LLMConfig(model="m", base_url="https://api.groq.com/openai/v1"))

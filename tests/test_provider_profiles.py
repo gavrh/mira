@@ -12,7 +12,7 @@ class TestResolve:
         p = profiles.resolve("https://openrouter.ai/api/v1")
         assert p["name"] == "openrouter"
         assert p["model_prefix"] == "keep"
-        assert p["extra_headers"]["X-Title"] == "Mira Code Reviewer"
+        assert p["extra_headers"]["X-Title"] == "AI Code Reviewer"
         assert p["reasoning_effort_map"] == {"max": "xhigh"}
 
     def test_trailing_slash_insensitive(self):
