@@ -44,7 +44,7 @@ _THREAD_REPLY_ENV = Environment(
 
 _THREAD_REPLY_TEMPLATE = _THREAD_REPLY_ENV.get_template("thread_reply.jinja2")
 
-PAUSE_LABEL = "mira-paused"
+PAUSE_LABEL = "review-paused"
 
 _PAUSE_KEYWORDS = {"pause"}
 
@@ -76,23 +76,22 @@ def _open_store(owner: str, repo: str, platform: str = "github") -> IndexStore:
 
 
 def _help_message(bot_name: str) -> str:
-    """Markdown help comment listing every command Mira understands."""
+    """Markdown help comment listing every command the reviewer understands."""
     return (
-        f"### Mira commands\n\n"
+        f"### Commands\n\n"
         f"Mention `@{bot_name}` in a PR comment followed by one of these verbs:\n\n"
         f"| Command | What it does |\n"
         f"|---|---|\n"
         f"| `@{bot_name} review` | Re-run the full review on this PR. Useful after force-pushes or when you want a fresh pass. |\n"
         f"| `@{bot_name} review-rest` | Review files that were skipped on the first pass because the PR was too large. Aliases: `rest`, `continue`. |\n"
-        f"| `@{bot_name} pause` | Pause Mira on this PR. No more reviews until you resume. Adds a `mira-paused` label. |\n"
-        f"| `@{bot_name} resume` | Resume Mira on a paused PR and re-review the latest diff. |\n"
+        f"| `@{bot_name} pause` | Pause automatic reviews on this PR. No more reviews until you resume. Adds a `review-paused` label. |\n"
+        f"| `@{bot_name} resume` | Resume automatic reviews on a paused PR and re-review the latest diff. |\n"
         f"| `@{bot_name} help` | Show this message. Aliases: `?`, `commands`. |\n"
-        f"| `@{bot_name} <anything else>` | Ask a free-form question about the PR. Mira will reply inline using the PR diff as context. |\n\n"
-        f"On an inline review comment Mira posted, reply with `@{bot_name} reject` "
+        f"| `@{bot_name} <anything else>` | Ask a free-form question about the PR. The reviewer will reply inline using the PR diff as context. |\n\n"
+        f"On an inline review comment, reply with `@{bot_name} reject` "
         f"(aliases: `dismiss`, `resolve`, `ignore`) to mark the thread resolved and "
-        f"teach Mira not to make similar suggestions in the future.\n\n"
-        f"To skip a PR entirely, include `@{bot_name} ignore` in the PR body.\n\n"
-        f"Full docs: https://docs.miracode.ai/commands"
+        f"teach the reviewer not to make similar suggestions in the future.\n\n"
+        f"To skip a PR entirely, include `@{bot_name} ignore` in the PR body."
     )
 
 
@@ -316,7 +315,7 @@ async def run_thread_reply(
     comment_path: str = "",
     comment_line: int = 0,
     actor: str = "",
-    bot_name: str = "miracodeai",
+    bot_name: str = "reviewer",
     platform: str = "github",
     user_id: int | None = None,
 ) -> None:
