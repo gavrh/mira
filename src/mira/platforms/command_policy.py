@@ -56,7 +56,7 @@ async def is_command_allowed(
 ) -> bool:
     """Whether ``actor`` may run ``command`` on ``owner/repo``."""
     if command not in COMMANDS:
-        logger.warning("Unknown Mira command %r; denying", command)
+        logger.warning("Unknown review command %r; denying", command)
         return False
     if not actor:
         return False
