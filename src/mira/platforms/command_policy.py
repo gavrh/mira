@@ -63,7 +63,7 @@ async def is_command_allowed(
     errs on the side of denial.
     """
     if command not in COMMANDS:
-        logger.warning("Unknown Mira command %r; denying", command)
+        logger.warning("Unknown review command %r; denying", command)
         return False
     if not actor:
         return False
