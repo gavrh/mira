@@ -18,7 +18,7 @@ lsof -ti:8100 2>/dev/null | xargs kill -9 2>/dev/null || true
 lsof -ti:5173 2>/dev/null | xargs kill -9 2>/dev/null || true
 sleep 1
 
-echo "=== Starting Mira ==="
+echo "=== Starting server ==="
 
 # Load private key from file if path is set
 if [ -n "$MIRA_GITHUB_PRIVATE_KEY_PATH" ]; then
@@ -47,7 +47,7 @@ echo "  DATABASE_URL=${DATABASE_URL:-(not set)}"
 echo "  MIRA_INDEX_DIR=${MIRA_INDEX_DIR}"
 
 # Start single server (dashboard API + webhooks on same port)
-echo "Starting Mira server on port 8100..."
+echo "Starting server on port 8100..."
 .venv/bin/python -c "
 import os, uvicorn
 from mira.dashboard.api import app
@@ -63,7 +63,7 @@ if app_id and private_key:
     webhook_app = create_webhook_app(
         app_auth=auth,
         webhook_secret=os.environ.get('MIRA_WEBHOOK_SECRET', ''),
-        bot_name=os.environ.get('MIRA_BOT_NAME', 'miracodeai'),
+        bot_name=os.environ.get('MIRA_BOT_NAME', 'reviewer'),
     )
     app.mount('/github', webhook_app)
     print('GitHub webhooks enabled at /github/webhook')
@@ -85,7 +85,7 @@ cd ../..
 
 sleep 2
 echo ""
-echo "=== Mira is running ==="
+echo "=== Server is running ==="
 echo "  Dashboard:  http://localhost:5173"
 echo "  API:        http://localhost:8100"
 if [ -n "$MIRA_GITHUB_APP_ID" ]; then

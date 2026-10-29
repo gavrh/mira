@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "=== Mira Local Setup ==="
+echo "=== Local Setup ==="
 echo ""
 
 # 1. Check dependencies
@@ -34,7 +34,7 @@ echo ""
 echo "Next steps:"
 echo ""
 echo "1. Create a GitHub App at https://github.com/settings/apps/new"
-echo "   - App name: Mira Code Reviewer"
+echo "   - App name: AI Code Reviewer"
 echo "   - Homepage URL: http://localhost:8100"
 echo "   - Webhook URL: (start ngrok first, see step 2)"
 echo "   - Webhook secret: generate one with: openssl rand -hex 20"
@@ -64,6 +64,6 @@ echo "3. Create a .env file:"
 echo "   cp .env.example .env"
 echo "   # Then fill in your values"
 echo ""
-echo "4. Start Mira:"
+echo "4. Start the server:"
 echo "   source .env && ./scripts/start_local.sh"
 echo ""
