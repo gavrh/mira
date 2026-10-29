@@ -15,7 +15,7 @@ from mira.models import (
 )
 
 CheckConclusion = Literal["success", "failure", "neutral"]
-CHECK_RUN_NAME = "Mira"
+CHECK_RUN_NAME = "Code Review"
 
 
 class BaseProvider(abc.ABC):

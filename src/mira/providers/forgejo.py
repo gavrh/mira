@@ -382,7 +382,7 @@ class ForgejoProvider(BaseProvider):
 
     # Forgejo has no Checks API, so the commit-status model stands in for it:
     # posting with the same context on the same SHA replaces the state, so one
-    # fixed context (``Mira``) renders a single row that transitions
+    # fixed context (``CHECK_RUN_NAME``) renders a single row that transitions
     # pending → success/failure, with the icon following the terminal state.
     # ``start_check_run`` returns ``0`` as a "posted" sentinel —
     # ``finish_check_run`` only skips when it gets ``None``.
