@@ -173,7 +173,7 @@ class TestCheckRuns:
             run_id = await provider.start_check_run(
                 pr_info,
                 title="Code Review In Progress",
-                summary="Mira is analyzing your code changes…",
+                summary="Reviewing your code changes…",
                 details_url=pr_info.url,
             )
         assert run_id == 0  # posted sentinel
@@ -181,8 +181,8 @@ class TestCheckRuns:
         assert captured["url"].endswith("/repos/o/r/statuses/deadbeef")
         assert captured["json"] == {
             "state": "pending",
-            "context": "Mira",
-            "description": "Mira is analyzing your code changes…",
+            "context": "Code Review",
+            "description": "Reviewing your code changes…",
             "target_url": "https://codeberg.example.org/o/r/pulls/1",
         }
 
@@ -207,7 +207,7 @@ class TestCheckRuns:
             )
         assert captured["url"].endswith("/repos/o/r/statuses/deadbeef")
         assert captured["json"]["state"] == "success"
-        assert captured["json"]["context"] == "Mira"
+        assert captured["json"]["context"] == "Code Review"
 
     @pytest.mark.asyncio
     async def test_finish_failure_and_neutral_states(self):
@@ -224,7 +224,7 @@ class TestCheckRuns:
             await provider.finish_check_run(pr_info, 0, "neutral", summary="Warnings")
         # Forgejo statuses have no neutral state: neutral renders as success.
         assert [j["state"] for j in seen] == ["failure", "success"]
-        assert all(j["context"] == "Mira" for j in seen)
+        assert all(j["context"] == "Code Review" for j in seen)
         assert seen[0]["description"] == "It failed"
 
     @pytest.mark.asyncio

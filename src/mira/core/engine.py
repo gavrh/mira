@@ -496,7 +496,7 @@ class ReviewEngine:
             return await self.provider.start_check_run(
                 pr_info,
                 title="Code Review In Progress",
-                summary="Mira is analyzing your code changes…",
+                summary="Reviewing your code changes…",
                 details_url=pr_info.url,
             )
         except Exception as exc:

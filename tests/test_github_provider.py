@@ -634,7 +634,7 @@ class TestCheckRuns:
             run_id = await provider.start_check_run(
                 pr_info,
                 title="Code Review In Progress",
-                summary="Mira is analyzing your code changes…",
+                summary="Reviewing your code changes…",
                 details_url=pr_info.url,
             )
 
@@ -642,7 +642,7 @@ class TestCheckRuns:
         args, kwargs = mock_post.call_args
         assert args[0].endswith("/repos/o/r/check-runs")
         body = kwargs["json"]
-        assert body["name"] == "Mira"
+        assert body["name"] == "Code Review"
         assert body["head_sha"] == "deadbeef"
         assert body["status"] == "in_progress"
         assert body["details_url"] == "https://github.com/o/r/pull/1"
