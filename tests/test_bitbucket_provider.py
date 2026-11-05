@@ -840,7 +840,7 @@ class TestBitbucketMarkdown:
         from mira.providers.bitbucket import from_bitbucket_markdown, to_bitbucket_markdown
 
         out = to_bitbucket_markdown(f"{WALKTHROUGH_MARKER}\n## Walkthrough")
-        assert out.startswith("[//]: # (mira-walkthrough)\n\n## Walkthrough")
+        assert out.startswith("[//]: # (review-walkthrough)\n\n## Walkthrough")
         assert "<!--" not in out
         assert WALKTHROUGH_MARKER in from_bitbucket_markdown(out)
 
@@ -875,24 +875,24 @@ class TestBitbucketMarkdown:
             provider = BitbucketProvider("tok")
             await provider.post_comment(_pr_info(), "<!-- m -->\n<b>hi</b>")
             await provider.update_comment(_pr_info(), 1, "<!-- m -->\nedited")
-            await provider.update_pr_description(_pr_info(), "desc\n<!-- mira-pr-summary-start -->")
+            await provider.update_pr_description(_pr_info(), "desc\n<!-- review-summary-start -->")
         assert sent[0]["content"]["raw"] == "[//]: # (m)\n\n**hi**"
         assert sent[1]["content"]["raw"] == "[//]: # (m)\n\nedited"
-        assert sent[3]["description"] == "desc\n\n[//]: # (mira-pr-summary-start)"
+        assert sent[3]["description"] == "desc\n\n[//]: # (review-summary-start)"
 
     @pytest.mark.asyncio
     async def test_marker_found_in_converted_comment(self):
         def handler(method, url, **kw):
             return _FakeResp(
                 json_data=_comments_page(
-                    {"id": 5, "content": {"raw": "[//]: # (mira-walkthrough)\n\n## Walkthrough"}}
+                    {"id": 5, "content": {"raw": "[//]: # (review-walkthrough)\n\n## Walkthrough"}}
                 )
             )
 
         ctx, _ = _patch(handler)
         with ctx:
             found = await BitbucketProvider("tok").find_bot_comment(
-                _pr_info(), "<!-- mira-walkthrough -->"
+                _pr_info(), "<!-- review-walkthrough -->"
             )
         assert found == 5
 
@@ -994,7 +994,7 @@ class TestReviewBuildStatus:
         ctx, _ = _patch(handler)
         with ctx:
             run_id = await BitbucketProvider("tok").start_check_run(
-                _pr_info(), title="Code Review In Progress", summary="Mira is analyzing…"
+                _pr_info(), title="Code Review In Progress", summary="Reviewing your code changes…"
             )
         assert run_id == 0
         assert calls == [
@@ -1002,11 +1002,11 @@ class TestReviewBuildStatus:
                 "POST",
                 self.STATUS_URL,
                 {
-                    "key": "mira-review",
+                    "key": "code-review",
                     "state": "INPROGRESS",
-                    "name": "Mira review",
+                    "name": "Code Review",
                     "url": "https://bitbucket.org/acme/widgets/pull-requests/7",
-                    "description": "Mira is analyzing…",
+                    "description": "Reviewing your code changes…",
                 },
             )
         ]
@@ -1025,7 +1025,7 @@ class TestReviewBuildStatus:
             )
         method, url, body = calls[0]
         assert (method, url) == ("POST", self.STATUS_URL)
-        assert body["key"] == "mira-review"
+        assert body["key"] == "code-review"
         assert body["state"] == state
         assert body["description"] == "Review finished. (3 files reviewed)"
 

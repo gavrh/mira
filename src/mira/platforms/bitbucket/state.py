@@ -1,6 +1,6 @@
 """Per-PR state Bitbucket Cloud can't hold for us.
 
-Bitbucket pull requests have no labels, so the ``mira-paused`` label other
+Bitbucket pull requests have no labels, so the ``review-paused`` label other
 platforms put on the PR is kept in the app database instead. The same record
 remembers the last source commit seen per PR: Bitbucket's
 ``pullrequest:updated`` fires for title/description edits as well as new

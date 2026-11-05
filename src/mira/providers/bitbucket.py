@@ -499,7 +499,7 @@ class BitbucketProvider(BaseProvider):
             return 0
 
     async def post_review(
-        self, pr_info: PRInfo, result: ReviewResult, bot_name: str = "miracodeai"
+        self, pr_info: PRInfo, result: ReviewResult, bot_name: str = "reviewer"
     ) -> list[int]:
         """Post each finding as an inline comment, then the summary as a PR comment.
 
@@ -544,7 +544,7 @@ class BitbucketProvider(BaseProvider):
 
         summary = ""
         if result.summary:
-            summary = f"**Mira Review Summary**\n\n{result.summary}"
+            summary = f"**Review Summary**\n\n{result.summary}"
         if result.key_issues:
             summary += format_key_issues(result.key_issues)
         if summary:
@@ -728,7 +728,7 @@ class BitbucketProvider(BaseProvider):
 
     # Bitbucket shows build statuses on the PR and the commit. Posting again
     # with the same key overwrites the status, so one key tracks a review.
-    _BUILD_STATUS_KEY = "mira-review"
+    _BUILD_STATUS_KEY = "code-review"
     _BUILD_STATES = {"success": "SUCCESSFUL", "failure": "FAILED", "neutral": "SUCCESSFUL"}
 
     async def _post_build_status(self, pr_info: PRInfo, state: str, description: str) -> None:
@@ -738,7 +738,7 @@ class BitbucketProvider(BaseProvider):
             json={
                 "key": self._BUILD_STATUS_KEY,
                 "state": state,
-                "name": f"{CHECK_RUN_NAME} review",
+                "name": CHECK_RUN_NAME,
                 "url": pr_info.url,
                 # Bitbucket rejects long descriptions; keep it to one line.
                 "description": description[:255],
@@ -753,7 +753,7 @@ class BitbucketProvider(BaseProvider):
         summary: str = "",
         details_url: str = "",
     ) -> int | None:
-        """Mark the PR head commit's ``Mira review`` build status as in progress."""
+        """Mark the PR head commit's review build status as in progress."""
         if not pr_info.head_sha or not pr_info.url:
             return None
         await self._post_build_status(pr_info, "INPROGRESS", summary or title)

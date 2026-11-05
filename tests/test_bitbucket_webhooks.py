@@ -338,7 +338,7 @@ class TestCommentHandler:
                 _comment_payload("@{557058:bot} pause", _actor("alice")), bitbucket_auth, BOT
             )
         provider.add_label.assert_awaited_once()
-        assert provider.add_label.await_args.args[1] == "mira-paused"
+        assert provider.add_label.await_args.args[1] == "review-paused"
 
     @pytest.mark.asyncio
     async def test_commands_authorize_by_account_id(self, bitbucket_auth):

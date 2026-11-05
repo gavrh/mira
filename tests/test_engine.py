@@ -825,7 +825,7 @@ class TestReviewEngine:
 
         assert any("PR walkthrough summary" in b for b in bodies), "final walkthrough was tried"
         final = bodies[-1]
-        assert "<!-- mira-walkthrough -->" in final
+        assert "<!-- review-walkthrough -->" in final
         assert "walkthrough could not be posted" in final
         assert "Reviewing this PR" not in final
         assert "Code review in progress" not in final
